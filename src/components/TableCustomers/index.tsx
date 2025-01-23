@@ -30,7 +30,9 @@ export const TableCustomers = ({ customers }: ITableCustomersProps) => {
               <td className="td-class">{customer.email}</td>
               <td className="td-class">{customer.cellphone}</td>
               <td className="td-class">{customer.occupation}</td>
-              <td className="td-class">{customer.birthDate.toString()}</td>
+              <td className="td-class">
+                {new Date(customer.birthDate).toLocaleDateString()}
+              </td>
               <td className="td-class">
                 <IconButton
                   icon={SGVEDIT}
