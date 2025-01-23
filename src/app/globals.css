@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff89254;
+  --foreground: #ec9c22;
+  --primary-color: #fff89254;
+  --secondary-color: #ec9c22;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #222222;
     --foreground: #ededed;
+    --primary-color: #222222;
+    --secondary-color: #ededed;
   }
 }
 
@@ -18,4 +22,17 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.suspended-text {
+  @apply text-gray-500;
+}
+
+.tr-class {
+  @apply flex flex-col mb-4 sm:table-row;
+}
+
+.td-class {
+  @apply px-4 py-3 text-black bg-gray-200 first:rounded-t-lg last:rounded-b-lg sm:first:rounded-t-none sm:last:rounded-b-none 
+    sm:first:rounded-tl-lg sm:first:rounded-bl-lg sm:last:rounded-tr-lg sm:last:rounded-br-lg;
 }
