@@ -7,10 +7,13 @@ import IconButton from "../IconButton";
 
 interface ITableCustomersProps {
   customers: ICustomerWallet[];
+  removeCustomer: (id: string) => void;
 }
 
-export const TableCustomers = ({ customers }: ITableCustomersProps) => {
-  console.log("customers: ", customers);
+export const TableCustomers = ({
+  customers,
+  removeCustomer,
+}: ITableCustomersProps) => {
   return (
     <div className="flex items-center sm:justify-center ml-2 sm:ml-0">
       <table className="text-sm border-separate border-spacing-y-2">
@@ -45,7 +48,7 @@ export const TableCustomers = ({ customers }: ITableCustomersProps) => {
                   icon={SGVDELETE}
                   alt="Deletar"
                   onClick={() => {
-                    console.log("deletar");
+                    removeCustomer(customer._id);
                   }}
                 />
               </td>
