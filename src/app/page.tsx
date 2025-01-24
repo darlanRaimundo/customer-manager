@@ -1,27 +1,11 @@
-"use client";
+import CustomerManager from "@/pages/CustomerManager";
 
-import ModalNewCustomer from "@/components/ModalNewCustomer";
-import { TableCustomers } from "@/components/TableCustomers";
-import { getCustomers } from "@/services/getCustomers";
-import { ICustomerWallet } from "@/types/global";
-import { useEffect, useState } from "react";
-
-export default function Home() {
-  const [customers, setCustomers] = useState<ICustomerWallet[]>([]);
-
-  const getCustomersList = async () => {
-    const _customers = await getCustomers();
-    setCustomers(_customers);
-  };
-
-  useEffect(() => {
-    getCustomersList();
-  }, []);
-
+export const Home = () => {
   return (
     <div>
-      <ModalNewCustomer />
-      <TableCustomers customers={customers} />
+      <CustomerManager />
     </div>
   );
-}
+};
+
+export default Home;
