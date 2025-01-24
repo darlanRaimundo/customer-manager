@@ -1,8 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-export default function ModalNewCustomer() {
+interface IModalNewCustomerProps {
+  setDataToSave: Dispatch<SetStateAction<Inputs | undefined>>;
+}
+
+export type Inputs = {
+  name: string;
+  birthDate: Date;
+  cellphone: string;
+  email: string;
+  occupation: string;
+  state: string;
+};
+
+export const ModalNewCustomer = ({ setDataToSave }: IModalNewCustomerProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setDataToSave(data);
+    setModalState("hidden");
+  };
+
   const [modalState, setModalState] = React.useState<"hidden" | "visible">(
     "hidden"
   );
@@ -12,7 +37,7 @@ export default function ModalNewCustomer() {
       <button
         data-modal-target="crud-modal"
         data-modal-toggle="crud-modal"
-        className="block text-white bg-orange-400 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 mt-5 ml-2
+        className="block text-white bg-orange-400 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 mt-5 sm:ml-0 ml-2
           font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
         type="button"
         onClick={() => {
@@ -62,75 +87,134 @@ export default function ModalNewCustomer() {
               </button>
             </div>
             {/* <!-- Modal body --> */}
-            <form className="flex flex-col p-4 md:p-5">
+            <form
+              className="flex flex-col p-4 md:p-5"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
                   <label
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 "
                   >
-                    Name
+                    Nome
                   </label>
                   <input
                     type="text"
-                    name="name"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                    placeholder="Type product name"
-                    required={false}
+                    placeholder="Digite o nome do cliente"
+                    {...register("name", { required: true })}
                   />
+                  {errors.name && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label
                     htmlFor="price"
                     className="block mb-2 text-sm font-medium text-gray-900 "
                   >
-                    Price
+                    Data de nascimento
                   </label>
                   <input
-                    type="number"
-                    name="price"
-                    id="price"
+                    type="date"
+                    {...register("birthDate", { required: true })}
+                    id="date"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="$2999"
                   />
+                  {errors.birthDate && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <label
                     htmlFor="category"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Category
+                    Celular
                   </label>
-                  <select
-                    id="category"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                    defaultValue={"Select category"}
-                  >
-                    {/* <option selected={true}>Select category</option> */}
-                    <option value="TV">TV/Monitors</option>
-                    <option value="PC">PC</option>
-                    <option value="GA">Gaming/Console</option>
-                    <option value="PH">Phones</option>
-                  </select>
+                  <input
+                    type="text"
+                    {...register("cellphone", { required: true })}
+                    id="cellphone"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="(00) 00000-0000"
+                  />
+                  {errors.cellphone && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <label
-                    htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900 "
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Product Description
+                    Email
                   </label>
-                  <textarea
-                    id="description"
-                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                    placeholder="Write product description here"
-                  ></textarea>
+                  <input
+                    type="text"
+                    {...register("email", { required: true })}
+                    id="email"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                    placeholder="Digite o email do cliente"
+                  />
+                  {errors.email && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
+                </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Ocupação
+                  </label>
+                  <input
+                    type="text"
+                    {...register("occupation", { required: true })}
+                    id="occupation"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                    placeholder="Digite a ocupação do cliente"
+                  />
+                  {errors.occupation && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
+                </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Estado
+                  </label>
+                  <input
+                    type="text"
+                    {...register("state", { required: true })}
+                    id="state"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                    placeholder="Digite o estado do cliente"
+                  />
+                  {errors.state && (
+                    <span className="text-red-900">
+                      Esse campo é obrigatório
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <button
-                  type="button"
+                  type="submit"
                   className="flex text-white bg-orange-400 hover:bg-orange-800 focus:ring-4 focus:outline-none
                   focus:ring-orange-300 mt-5 ml-2 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 
                   dark:hover:bg-orange-700 dark:focus:ring-orange-800"
@@ -156,4 +240,4 @@ export default function ModalNewCustomer() {
       </div>
     </div>
   );
-}
+};
